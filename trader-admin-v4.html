@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artisans of Morocco — Trader Admin · Eid Festival 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#0f1d35;--navy-mid:#162440;--gold:#c9933a;--gold-light:#e8b86d;--gold-dim:#8a6020;--cream:#f5efe6;--teal:#2a7f8a;--teal-light:#3aa8b5;--border:rgba(201,147,58,0.2);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Lato',sans-serif;background:var(--navy);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(60deg,rgba(201,147,58,.025) 0px,transparent 1px,transparent 20px),repeating-linear-gradient(-60deg,rgba(201,147,58,.025) 0px,transparent 1px,transparent 20px);pointer-events:none;z-index:0;}
+  header{position:relative;z-index:10;background:linear-gradient(135deg,#0a1525,#162440,#0f1d35);border-bottom:1px solid var(--border);padding:0 2rem;}
+  .header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:1.5rem;padding:1.1rem 0;}
+  .logo-mark{width:48px;height:48px;flex-shrink:0;}
+  .header-text h1{font-family:'Cinzel',serif;font-size:1rem;font-weight:700;color:var(--gold-light);letter-spacing:.08em;line-height:1.2;}
+  .header-text p{font-size:.7rem;color:rgba(245,239,230,.4);letter-spacing:.12em;text-transform:uppercase;margin-top:2px;}
+  .header-right{margin-left:auto;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;}
+  .event-badge{background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:var(--navy);font-family:'Cinzel',serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;padding:.32rem .8rem;border-radius:20px;text-transform:uppercase;}
+  .data-chip{font-size:.68rem;color:var(--gold-light);background:rgba(201,147,58,.1);border:1px solid rgba(201,147,58,.25);padding:.3rem .7rem;border-radius:20px;letter-spacing:.04em;}
+  .new-badge{font-size:.65rem;font-weight:700;color:#4caf82;background:rgba(45,122,79,.15);border:1px solid rgba(45,122,79,.3);padding:.3rem .7rem;border-radius:20px;letter-spacing:.04em;}
+  .refresh-info{font-size:.62rem;color:rgba(245,239,230,.28);max-width:160px;line-height:1.4;text-align:right;}
+  .stats-bar{position:relative;z-index:10;background:rgba(22,36,64,.85);border-bottom:1px solid var(--border);padding:.9rem 2rem;}
+  .stats-inner{max-width:1400px;margin:0 auto;display:flex;gap:1.8rem;flex-wrap:wrap;align-items:center;}
+  .stat-item{display:flex;align-items:center;gap:.55rem;}
+  .stat-num{font-family:'Cinzel',serif;font-size:1.45rem;font-weight:700;color:var(--gold-light);line-height:1;}
+  .stat-label{font-size:.66rem;color:rgba(245,239,230,.4);text-transform:uppercase;letter-spacing:.1em;line-height:1.3;}
+  .stat-divider{width:1px;height:28px;background:var(--border);}
+  .controls{position:relative;z-index:10;padding:1.3rem 2rem;max-width:1400px;margin:0 auto;}
+  .controls-row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;}
+  .search-wrap{position:relative;flex:1;min-width:200px;}
+  .search-icon{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--gold-dim);font-size:.82rem;pointer-events:none;}
+  .search-input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--cream);font-family:'Lato',sans-serif;font-size:.82rem;padding:.62rem 1rem .62rem 2.5rem;border-radius:8px;outline:none;transition:all .2s;}
+  .search-input::placeholder{color:rgba(245,239,230,.25);}
+  .search-input:focus{border-color:var(--gold);background:rgba(255,255,255,.08);}
+  .filter-btn{background:rgba(255,255,255,.05);border:1px solid var(--border);color:rgba(245,239,230,.6);font-family:'Lato',sans-serif;font-size:.72rem;padding:.62rem .95rem;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+  .filter-btn:hover,.filter-btn.active{background:rgba(201,147,58,.15);border-color:var(--gold);color:var(--gold-light);}
+  .filter-btn.active{font-weight:700;}
+  .sort-row{max-width:1400px;margin:0 auto .7rem;padding:0 2rem;display:flex;justify-content:space-between;align-items:center;}
+  .results-count{font-size:.72rem;color:rgba(245,239,230,.32);}
+  .sort-controls{display:flex;gap:.4rem;align-items:center;}
+  .sort-label{font-size:.65rem;color:rgba(245,239,230,.32);text-transform:uppercase;letter-spacing:.1em;}
+  .sort-btn{background:none;border:1px solid var(--border);color:rgba(245,239,230,.45);font-family:'Lato',sans-serif;font-size:.65rem;padding:.26rem .6rem;border-radius:5px;cursor:pointer;transition:all .2s;}
+  .sort-btn.active{background:rgba(201,147,58,.15);border-color:var(--gold);color:var(--gold-light);}
+  .ai-notice{max-width:1400px;margin:0 auto .4rem;padding:0 2rem;}
+  .ai-notice-inner{background:rgba(42,127,138,.1);border:1px solid rgba(42,127,138,.25);border-radius:7px;padding:.5rem .85rem;font-size:.7rem;color:var(--teal-light);display:flex;align-items:center;gap:.5rem;}
+  .grid{position:relative;z-index:10;max-width:1400px;margin:0 auto;padding:0 2rem 3rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(305px,1fr));gap:1rem;}
+  .trader-card{background:linear-gradient(135deg,rgba(22,36,64,.96),rgba(15,29,53,.98));border:1px solid var(--border);border-radius:12px;padding:1.25rem;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s;animation:cardIn .35s ease both;}
+  .trader-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0;}
+  .trader-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3);border-color:rgba(201,147,58,.35);}
+  .trader-card.is-new{border-color:rgba(45,122,79,.4);}
+  @keyframes cardIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;gap:.75rem;}
+  .pos-badge{font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold-dim);background:rgba(201,147,58,.1);border:1px solid rgba(201,147,58,.2);padding:.16rem .42rem;border-radius:4px;white-space:nowrap;}
+  .new-tag{font-size:.58rem;font-weight:700;color:#4caf82;background:rgba(45,122,79,.2);border:1px solid rgba(45,122,79,.35);padding:.14rem .38rem;border-radius:4px;display:block;margin-top:4px;text-align:center;letter-spacing:.06em;}
+  .biz-name{font-family:'Cinzel',serif;font-size:.88rem;font-weight:600;color:var(--cream);line-height:1.3;flex:1;}
+  .cat-pill{display:inline-flex;align-items:center;gap:5px;font-size:.63rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.23rem .62rem;border-radius:20px;margin-bottom:.65rem;white-space:nowrap;}
+  .products-text{font-size:.76rem;color:rgba(245,239,230,.52);line-height:1.5;margin-bottom:.85rem;font-style:italic;}
+  .card-details{display:flex;flex-direction:column;gap:.38rem;margin-bottom:.85rem;padding-top:.65rem;border-top:1px solid rgba(201,147,58,.1);}
+  .detail-row{display:flex;align-items:flex-start;gap:.42rem;font-size:.71rem;}
+  .d-icon{color:var(--gold-dim);width:14px;flex-shrink:0;margin-top:1px;font-size:.7rem;}
+  .d-val{color:rgba(245,239,230,.58);word-break:break-all;line-height:1.4;}
+  .d-val a{color:var(--teal-light);text-decoration:none;}
+  .d-val a:hover{text-decoration:underline;}
+  .card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:.65rem;border-top:1px solid rgba(201,147,58,.1);gap:.4rem;flex-wrap:wrap;}
+  .ts{font-size:.63rem;color:rgba(245,239,230,.25);}
+  .flags{display:flex;gap:.32rem;flex-wrap:wrap;}
+  .flag{font-size:.58rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.16rem .42rem;border-radius:4px;}
+  .flag-paid{background:rgba(45,122,79,.2);color:#4caf82;border:1px solid rgba(45,122,79,.35);}
+  .flag-unpaid{background:rgba(184,50,50,.15);color:#e88080;border:1px solid rgba(184,50,50,.3);}
+  .flag-electric{background:rgba(255,193,7,.15);color:#ffc107;border:1px solid rgba(255,193,7,.3);}
+  .flag-dup{background:rgba(255,140,0,.15);color:#ffaa44;border:1px solid rgba(255,140,0,.3);}
+  .flag-rev{background:rgba(150,50,200,.15);color:#cc88ff;border:1px solid rgba(150,50,200,.3);}
+  .flag-req{background:rgba(42,127,138,.15);color:var(--teal-light);border:1px solid rgba(42,127,138,.3);}
+  .flag-new{background:rgba(45,122,79,.2);color:#4caf82;border:1px solid rgba(45,122,79,.4);}
+  .edit-btn{background:rgba(201,147,58,.1);border:1px solid rgba(201,147,58,.22);color:var(--gold-light);font-size:.6rem;padding:.16rem .42rem;border-radius:4px;cursor:pointer;font-family:'Lato',sans-serif;letter-spacing:.04em;display:block;width:100%;margin-top:4px;transition:all .2s;}
+  .edit-btn:hover{background:rgba(201,147,58,.2);}
+  .note-section{margin-top:.65rem;padding-top:.45rem;border-top:1px solid rgba(201,147,58,.08);}
+  .note-label{font-size:.58rem;color:var(--gold-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.22rem;}
+  .note-val{font-size:.7rem;color:rgba(245,239,230,.42);font-style:italic;line-height:1.4;}
+  /* CATEGORY COLOURS */
+  .cat-food .trader-card::before{background:linear-gradient(90deg,#e05a1a,#f0823c);}
+  .cat-food .cat-pill{background:rgba(224,90,26,.15);color:#f0823c;border:1px solid rgba(224,90,26,.3);}
+  .cat-bakes .trader-card::before{background:linear-gradient(90deg,#d4449b,#e870b8);}
+  .cat-bakes .cat-pill{background:rgba(212,68,155,.15);color:#e870b8;border:1px solid rgba(212,68,155,.3);}
+  .cat-fragrance .trader-card::before{background:linear-gradient(90deg,#7b4dcc,#a47de8);}
+  .cat-fragrance .cat-pill{background:rgba(123,77,204,.15);color:#a47de8;border:1px solid rgba(123,77,204,.3);}
+  .cat-clothing .trader-card::before{background:linear-gradient(90deg,#2a7f8a,#3aa8b5);}
+  .cat-clothing .cat-pill{background:rgba(42,127,138,.15);color:#3aa8b5;border:1px solid rgba(42,127,138,.3);}
+  .cat-henna .trader-card::before{background:linear-gradient(90deg,#8a5c1a,#c9933a);}
+  .cat-henna .cat-pill{background:rgba(138,92,26,.2);color:#c9933a;border:1px solid rgba(138,92,26,.4);}
+  .cat-gifts .trader-card::before{background:linear-gradient(90deg,#2d7a4f,#3a9e66);}
+  .cat-gifts .cat-pill{background:rgba(45,122,79,.15);color:#3a9e66;border:1px solid rgba(45,122,79,.3);}
+  .cat-books .trader-card::before{background:linear-gradient(90deg,#1a5c8a,#2a88c5);}
+  .cat-books .cat-pill{background:rgba(26,92,138,.15);color:#2a88c5;border:1px solid rgba(26,92,138,.3);}
+  .cat-health .trader-card::before{background:linear-gradient(90deg,#4a8a1a,#72cc2a);}
+  .cat-health .cat-pill{background:rgba(74,138,26,.15);color:#72cc2a;border:1px solid rgba(74,138,26,.3);}
+  .cat-charity .trader-card::before{background:linear-gradient(90deg,#1a4a1a,#2d7a2d);}
+  .cat-charity .cat-pill{background:rgba(26,74,26,.2);color:#5aaa5a;border:1px solid rgba(26,74,26,.4);}
+  .cat-artisan .trader-card::before{background:linear-gradient(90deg,#8a2c1a,#c9501a);}
+  .cat-artisan .cat-pill{background:rgba(138,44,26,.2);color:#e0723a;border:1px solid rgba(138,44,26,.4);}
+  .cat-drinks .trader-card::before{background:linear-gradient(90deg,#1a6a6a,#2aaabb);}
+  .cat-drinks .cat-pill{background:rgba(26,106,106,.2);color:#2aaabb;border:1px solid rgba(26,106,106,.4);}
+  .cat-decor .trader-card::before{background:linear-gradient(90deg,#5a3a8a,#8a66cc);}
+  .cat-decor .cat-pill{background:rgba(90,58,138,.2);color:#8a66cc;border:1px solid rgba(90,58,138,.4);}
+  .cat-review .trader-card::before{background:linear-gradient(90deg,#555,#888);}
+  .cat-review .cat-pill{background:rgba(100,100,100,.2);color:#aaa;border:1px solid rgba(100,100,100,.3);}
+  .section-header{grid-column:1/-1;display:flex;align-items:center;gap:.8rem;margin:.3rem 0 .1rem;padding-bottom:.45rem;border-bottom:1px solid rgba(201,147,58,.15);}
+  .section-header h2{font-family:'Cinzel',serif;font-size:.7rem;font-weight:600;color:var(--gold-dim);text-transform:uppercase;letter-spacing:.15em;}
+  .section-count{font-size:.62rem;color:rgba(245,239,230,.22);}
+  .empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;}
+  .empty-state h3{font-family:'Cinzel',serif;font-size:.95rem;color:rgba(245,239,230,.32);margin-bottom:.5rem;}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;padding:1.5rem;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:linear-gradient(135deg,#162440,#0f1d35);border:1px solid rgba(201,147,58,.35);border-radius:14px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;padding:1.8rem;position:relative;}
+  .modal-close{position:absolute;top:.9rem;right:.9rem;background:none;border:none;color:rgba(245,239,230,.35);font-size:1.2rem;cursor:pointer;transition:color .2s;}
+  .modal-close:hover{color:var(--cream);}
+  .modal h2{font-family:'Cinzel',serif;font-size:.95rem;color:var(--gold-light);margin-bottom:1.3rem;}
+  .mf{margin-bottom:.85rem;}
+  .mf label{display:block;font-size:.66rem;color:var(--gold-dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.26rem;}
+  .mf input,.mf select,.mf textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--cream);font-family:'Lato',sans-serif;font-size:.8rem;padding:.52rem .82rem;border-radius:7px;outline:none;transition:border-color .2s;}
+  .mf input:focus,.mf select:focus,.mf textarea:focus{border-color:var(--gold);}
+  .mf textarea{min-height:70px;resize:vertical;}
+  .mf select option{background:#162440;}
+  .dup-warn{background:rgba(255,140,0,.1);border:1px solid rgba(255,140,0,.3);border-radius:7px;padding:.55rem .8rem;font-size:.7rem;color:#ffaa44;margin-bottom:.9rem;display:none;}
+  .modal-actions{display:flex;gap:.65rem;margin-top:1.2rem;}
+  .btn-p{flex:1;background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:var(--navy);font-family:'Cinzel',serif;font-size:.76rem;font-weight:700;letter-spacing:.08em;padding:.62rem 1rem;border:none;border-radius:7px;cursor:pointer;transition:opacity .2s;}
+  .btn-p:hover{opacity:.85;}
+  .btn-s{background:rgba(255,255,255,.05);border:1px solid var(--border);color:rgba(245,239,230,.5);font-family:'Lato',sans-serif;font-size:.76rem;padding:.62rem 1rem;border-radius:7px;cursor:pointer;transition:all .2s;}
+  .btn-s:hover{border-color:var(--gold);color:var(--cream);}
+  ::-webkit-scrollbar{width:5px;}
+  ::-webkit-scrollbar-track{background:var(--navy);}
+  ::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px;}
+  @media(max-width:600px){header{padding:0 1rem;}.stats-bar,.controls,.sort-row,.ai-notice{padding-left:1rem;padding-right:1rem;}.grid{padding:0 1rem 2rem;grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <svg class="logo-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(50,50)">
+        <polygon points="0,-42 10,-20 35,-26 20,-6 38,10 14,8 10,35 0,14 -10,35 -14,8 -38,10 -20,-6 -35,-26 -10,-20" fill="none" stroke="#2a5fa8" stroke-width="5"/>
+        <path d="M0,-30 Q20,0 0,30 Q-20,0 0,-30" fill="#c9933a" opacity=".8"/>
+        <circle cx="0" cy="0" r="6" fill="#3aa8b5"/>
+      </g>
+    </svg>
+    <div class="header-text">
+      <h1>Artisans of Morocco</h1>
+      <p>Trader Admin · Internal Use Only</p>
+    </div>
+    <div class="header-right">
+      <span class="event-badge">Eid Festival 2026</span>
+      <span class="data-chip">📅 Sunday 24 May 2026</span>
+      <span class="data-chip" id="dataStamp">📊 27 traders · 4 May 2026</span>
+      <span class="new-badge">✦ 3 new registrations</span>
+      <span class="refresh-info">Ask Claude to<br>"update the trader dashboard"</span>
+    </div>
+  </div>
+</header>
+
+<div class="stats-bar"><div class="stats-inner" id="statsBar"></div></div>
+
+<div class="ai-notice">
+  <div class="ai-notice-inner">
+    ✦ Categories auto-assigned by AI · Click ✎ Edit on any card to override · Admin edits saved in browser · Last synced from Google Sheets: 4 May 2026
+  </div>
+</div>
+
+<div class="controls">
+  <div class="controls-row">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" type="text" id="searchInput" placeholder="Search name, product, phone, social...">
+    </div>
+    <button class="filter-btn active" onclick="setFilter('all',this)">All Traders</button>
+    <button class="filter-btn" onclick="setFilter('paid',this)">✓ Paid</button>
+    <button class="filter-btn" onclick="setFilter('unpaid',this)">⚠ Unpaid</button>
+    <button class="filter-btn" onclick="setFilter('electric',this)">⚡ Electric</button>
+    <button class="filter-btn" onclick="setFilter('new',this)">✦ New</button>
+    <button class="filter-btn" onclick="setFilter('duplicate',this)">⟳ Duplicates</button>
+    <button class="filter-btn" onclick="setFilter('review',this)">⚑ Review</button>
+  </div>
+</div>
+
+<div class="sort-row">
+  <span class="results-count" id="resultsCount"></span>
+  <div class="sort-controls">
+    <span class="sort-label">Sort:</span>
+    <button class="sort-btn active" onclick="setSort('date',this)">Date Registered</button>
+    <button class="sort-btn" onclick="setSort('name',this)">A–Z</button>
+    <button class="sort-btn" onclick="setSort('category',this)">Category</button>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Edit Trader</h2>
+    <div class="dup-warn" id="dupWarn">⚠ Possible duplicate — same phone or email found in another entry.</div>
+    <div class="mf"><label>Business Name</label><input type="text" id="eName"></div>
+    <div class="mf">
+      <label>Category</label>
+      <select id="eCat">
+        <option value="food">🍽 Food</option>
+        <option value="bakes">🎂 Bakes & Desserts</option>
+        <option value="drinks">☕ Drinks & Beverages</option>
+        <option value="fragrance">🪔 Fragrance & Oud</option>
+        <option value="clothing">👗 Clothing & Fashion</option>
+        <option value="henna">✋ Henna</option>
+        <option value="gifts">🎁 Gifts & Crafts</option>
+        <option value="books">📚 Books & Education</option>
+        <option value="health">🌿 Health & Wellbeing</option>
+        <option value="charity">🤝 Charity / Palestinian</option>
+        <option value="artisan">🌟 Artisan / Moroccan</option>
+        <option value="decor">🏠 Décor</option>
+        <option value="review">⚑ Needs Review</option>
+      </select>
+    </div>
+    <div class="mf">
+      <label>Payment Status</label>
+      <select id="ePaid">
+        <option value="">⚠ Unconfirmed</option>
+        <option value="Yes">✓ Paid</option>
+        <option value="No">✗ Not Paid</option>
+      </select>
+    </div>
+    <div class="mf"><label>Admin Notes</label><textarea id="eNotes" placeholder="Internal notes, follow-ups..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-p" onclick="saveEdit()">Save</button>
+      <button class="btn-s" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── LIVE DATA — synced from Google Sheets 4 May 2026 ──────────────────────────
+// NEW since last version: Khan's foods (#26), Personaltouches25 (#27), Sial Collections (#28)
+// Payment updates: AL-QULUB TRUST now Paid, Cake luxe Paid, Mumzee's Paid, Sharky's Paid,
+//   Learning Roots Paid, Thobae Paid, Pot puddings Paid, Flour&sugar Paid, Zed Abayas Paid,
+//   Samina Asif Paid, T'N'T Paid, Baklava House Paid, BubbleTeaHaven Paid,
+//   Flippin Yummy Paid, Favours4u Paid, AoM Paid, Eid Decor Paid, Cloud Paid,
+//   Zym Paid, Amir Al Amir Paid, Khan's Paid, Personaltouches25 Paid, Sial Paid
+// REMOVED since last version: Amir Al Amir (duplicate #20 entry), Sams kitchen, T'N'T duplicate,
+//   Amara's Kitchen, Naz cake bakes — these no longer appear in live sheet
+const RAW = [
+  {ts:"15/04/2026 07:26",name:"AL-QULUB TRUST",phone:"07703 541595",email:"info@alqulubtrust.org",products:"Palestine Tops, Non Boycott drinks, Dates",elec:"No",social:"@alqulubtrust",reqs:"N/A",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 09:17",name:"Cake luxe",phone:"07956290349",email:"Hassna_zabir@outlook.com",products:"Desserts",elec:"Yes",social:"Cakeluxe_",reqs:"",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 09:26",name:"Mumzee's natural way of life",phone:"07591104692",email:"umm_muhammed@icloud.com",products:"Health & wellbeing products",elec:"No",social:"N/A",reqs:"",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 10:56",name:"Sharky's scents",phone:"07377444602",email:"Sharky1950@hotmail.co.uk",products:"Fragrances / attars",elec:"No",social:"sharkys_scents",reqs:"N/A",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 11:16",name:"Learning Roots",phone:"07835382452",email:"charmied@icloud.com",products:"Books and educational resources",elec:"No",social:"halimah_daniels84",reqs:"",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 12:53",name:"Thobae",phone:"07523262054",email:"aseelmsaif@gmail.com",products:"Palestinian products",elec:"No",social:"@thobae_",reqs:"",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 12:53",name:"Hennabyaatiqa",phone:"07369254035",email:"Aatiqajan1@gmail.com",products:"Henna stall",elec:"No",social:"Hennabyaatiqa",reqs:"",paid:"",isNew:false},
+  {ts:"15/04/2026 13:26",name:"H Essence",phone:"07438844704",email:"hk786012@outlook.com",products:"Arabian & designer scents, roll-on oils, car diffusers, perfumes",elec:"No",social:"h____essence",reqs:"",paid:"",isNew:false},
+  {ts:"15/04/2026 14:31",name:"Mehndibyfakihra",phone:"07449511379",email:"Fakihra.azram@outlook.com",products:"Henna",elec:"No",social:"Mehndibyfakihra",reqs:"Two chairs and a table",paid:"",isNew:false},
+  {ts:"15/04/2026 16:26",name:"Handmade Decor",phone:"07535507212",email:"foziya.shah.92@gmail.com",products:"Handmade decor",elec:"No",social:"N/A",reqs:"Put next to organiser",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 16:39",name:"Pot puddings",phone:"07742420448",email:"Leeza.bibi@googlemail.com",products:"Bakes",elec:"No",social:"Pot_puddingss",reqs:"Needs a table",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 18:49",name:"Flour & sugar kitchen",phone:"07932325388",email:"Naz.awan84@gmail.com",products:"Cakes and sweets",elec:"No",social:"Floursugarkitchen",reqs:"",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 19:19",name:"Zed Abayas",phone:"07947123545",email:"zedabayas@gmail.com",products:"Abayas",elec:"No",social:"Zed Abayas",reqs:"",paid:"Yes",isNew:false},
+  {ts:"15/04/2026 21:37",name:"Samina Asif",phone:"07886 897569",email:"samasif78@gmail.com",products:"Food",elec:"No",social:"Facebook",reqs:"",paid:"Yes",isNew:false},
+  {ts:"17/04/2026 00:47",name:"T'N'T DESSERTS",phone:"07380415270",email:"Tybh_iqbal@yahoo.com",products:"Brownies, cookies, cheesecakes, cakes",elec:"No",social:"tnt.desserts",reqs:"Are tables available?",paid:"Yes",isNew:false},
+  {ts:"17/04/2026 09:37",name:"The Baklava House",phone:"07804797986",email:"Aaminah-begum@hotmail.co.uk",products:"Baklava",elec:"No",social:"the_baklavahouse",reqs:"",paid:"Yes",isNew:false},
+  {ts:"19/04/2026 15:00",name:"BubbleTeaHaven",phone:"07501403878",email:"Mashoudali@bubbleteahaven.co.uk",products:"Mocktails",elec:"No",social:"Bubbleteahaven",reqs:"Needs tables",paid:"Yes",isNew:false},
+  {ts:"21/04/2026 06:46",name:"Flippin Yummy",phone:"07460387707",email:"Sajida.shah74@gmail.com",products:"Pancakes and chocolate",elec:"Yes",social:"Instagram",reqs:"Table near organiser. No other dessert stalls please.",paid:"Yes",isNew:false},
+  {ts:"23/04/2026 15:51",name:"Favours4u",phone:"07756224409",email:"Miss_nags@hotmail.com",products:"Gifts",elec:"No",social:"favours_4_u",reqs:"First-time trader — needs support",paid:"Yes",isNew:false},
+  {ts:"26/04/2026 11:43",name:"Artisans of Morocco",phone:"07962347867",email:"s.shahzain@gmail.com",products:"Moroccan products",elec:"No",social:"@artisansofmorocco",reqs:"",paid:"Yes",isNew:false},
+  {ts:"26/04/2026 11:44",name:"Eid Decor",phone:"08962347867",email:"s.shahzain@gmail.com",products:"Eid decor",elec:"No",social:"N/A",reqs:"",paid:"Yes",isNew:false},
+  {ts:"28/04/2026 08:50",name:"Cloud - Matcha & Coffee",phone:"07448742318",email:"Aaimeeen23@gmail.com",products:"Coffee and matcha",elec:"Yes",social:"In process",reqs:"",paid:"Yes",isNew:false},
+  {ts:"29/04/2026 17:27",name:"Zym collection",phone:"07912118203",email:"zym.Sara.moh@gmail.com",products:"Modesty dresses, abayas and hijabs",elec:"No",social:"zym collection",reqs:"",paid:"Yes",isNew:false},
+  {ts:"30/04/2026 21:11",name:"Khadijah Fashion",phone:"07737865823",email:"khadijah.fashion2011@gmail.com",products:"Hijabs and jewellery",elec:"No",social:"@khadijahfashion",reqs:"N/A",paid:"",isNew:false},
+  {ts:"01/05/2026 11:53",name:"Amir Al Amir",phone:"07501478606",email:"Simra.amir@gmail.com",products:"Handcrafted oud",elec:"No",social:"@amiralamir",reqs:"",paid:"Yes",isNew:false},
+  {ts:"02/05/2026 22:05",name:"Khan's foods",phone:"07480857193",email:"Rabiqakhan123@hotmail.com",products:"Spring rolls, samosas, pastries, brownies, sponge cake, trifle, lemon cake",elec:"Yes",social:"Yes (not specified)",reqs:"None",paid:"Yes",isNew:true},
+  {ts:"03/05/2026 13:54",name:"Personaltouches25",phone:"07828100824",email:"Personaltouches25@gmail.com",products:"Personalised items",elec:"No",social:"personal.touches (TikTok)",reqs:"",paid:"Yes",isNew:true},
+  {ts:"04/05/2026 09:44",name:"Sial Collections",phone:"07912653211",email:"iramsial@icloud.com",products:"Fashion accessories & Eid gift items",elec:"No",social:"N/A",reqs:"Needs tables + space behind for clothing rails",paid:"Yes",isNew:true},
+];
+
+const CATS={food:'🍽 Food',bakes:'🎂 Bakes & Desserts',drinks:'☕ Drinks & Beverages',fragrance:'🪔 Fragrance & Oud',clothing:'👗 Clothing & Fashion',henna:'✋ Henna',gifts:'🎁 Gifts & Crafts',books:'📚 Books & Education',health:'🌿 Health & Wellbeing',charity:'🤝 Charity / Palestinian',artisan:'🌟 Artisan / Moroccan',decor:'🏠 Décor',review:'⚑ Needs Review'};
+
+function autoCat(n,p){
+  const t=(n+' '+p).toLowerCase();
+  if(/henna|mehndi/.test(t))return'henna';
+  if(/abaya|hijab|modest|thobes?|clothing|fashion|scarf|zym|zed|khadij|sial/.test(t))return'clothing';
+  if(/fragrance|scent|attar|perfume|oud|h essence|sharky/.test(t))return'fragrance';
+  if(/baklava|cake|bake|dessert|brownie|cookie|cupcake|sweet|pudding|flour|sugar|tnt|naz cake|pot pud|pancake|sponge|trifle|pastry|pastries/.test(t))return'bakes';
+  if(/spring roll|samosa|biryani|pakora|south asian|qeema|food|kitchen|savoury/.test(t))return'food';
+  if(/coffee|matcha|bubble tea|mocktail|drink|beverage/.test(t))return'drinks';
+  if(/book|education|learning roots/.test(t))return'books';
+  if(/health|wellbeing|natural|mumzee/.test(t))return'health';
+  if(/gift|favour|craft|jewellery|jewelry|handmade decor|favours|personal|accessory|accessories/.test(t))return'gifts';
+  if(/palestine|boycott|charity|trust|al.qulub|thobae/.test(t))return'charity';
+  if(/moroccan|artisan of morocco/.test(t))return'artisan';
+  if(/decor|decoration|eid decor/.test(t))return'decor';
+  return'review';
+}
+
+function parseTS(s){
+  const m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})/);
+  if(m)return new Date(`${m[3]}-${m[2]}-${m[1]}T${m[4]}:${m[5]}:00`);
+  return new Date(0);
+}
+
+function findDups(list){
+  const phones={},emails={},dups=new Set();
+  list.forEach((t,i)=>{
+    const p=t.phone.replace(/\s/g,'').replace(/^\+44/,'0');
+    const e=t.email.toLowerCase();
+    if(p.length>7&&/^\d+$/.test(p)){if(phones[p]!==undefined){dups.add(i);dups.add(phones[p]);}else phones[p]=i;}
+    if(e.includes('@')){if(emails[e]!==undefined){dups.add(i);dups.add(emails[e]);}else emails[e]=i;}
+  });
+  return dups;
+}
+
+const LOCAL_KEY='aom_v4_overrides';
+function loadOv(){try{return JSON.parse(localStorage.getItem(LOCAL_KEY)||'{}')}catch{return{}}}
+function saveOv(ov){try{localStorage.setItem(LOCAL_KEY,JSON.stringify(ov))}catch{}}
+
+let overrides=loadOv();
+
+function buildTraders(){
+  const dups=findDups(RAW);
+  let list=RAW.map((r,i)=>{
+    const ov=overrides[i]||{};
+    const cat=ov.category||autoCat(r.name,r.products);
+    return{id:i,ts:r.ts,pt:parseTS(r.ts),name:ov.name||r.name,phone:r.phone,email:r.email,products:r.products,elec:r.elec,social:r.social,reqs:r.reqs,paid:ov.paid!==undefined?ov.paid:r.paid,category:cat,adminNotes:ov.adminNotes||'',isDup:dups.has(i),needsReview:cat==='review',isNew:r.isNew};
+  });
+  list.sort((a,b)=>a.pt-b.pt);
+  list.forEach((t,i)=>t.pos=i+1);
+  return list;
+}
+
+let traders=buildTraders();
+let filter='all',sort='date',search='',editId=null;
+
+function getFiltered(){
+  let l=[...traders];
+  if(search){const s=search.toLowerCase();l=l.filter(t=>t.name.toLowerCase().includes(s)||t.products.toLowerCase().includes(s)||t.phone.includes(s)||t.email.toLowerCase().includes(s)||t.social.toLowerCase().includes(s)||CATS[t.category].toLowerCase().includes(s));}
+  if(filter==='paid')l=l.filter(t=>t.paid==='Yes');
+  if(filter==='unpaid')l=l.filter(t=>t.paid!=='Yes');
+  if(filter==='electric')l=l.filter(t=>t.elec==='Yes');
+  if(filter==='duplicate')l=l.filter(t=>t.isDup);
+  if(filter==='review')l=l.filter(t=>t.needsReview);
+  if(filter==='new')l=l.filter(t=>t.isNew);
+  if(sort==='date')l.sort((a,b)=>a.pt-b.pt);
+  if(sort==='name')l.sort((a,b)=>a.name.localeCompare(b.name));
+  if(sort==='category')l.sort((a,b)=>a.category.localeCompare(b.category)||a.pt-b.pt);
+  return l;
+}
+
+function fmtDate(ts){
+  const d=parseTS(ts);
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' · '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+}
+
+function socialHtml(raw){
+  if(!raw||raw.length<3||/^(na|n\/a|none|no|haven|in process|done|yes$|facebook$|instagram$)/i.test(raw.trim()))return raw||'';
+  if(raw.startsWith('http')){return`<a href="${raw}" target="_blank">${raw.replace(/https?:\/\/(www\.)?/,'').substring(0,36)}</a>`;}
+  const h=raw.replace(/^@/,'').split(/[\s,\n]/)[0];
+  if(raw.startsWith('@')||(!raw.includes(' ')&&!raw.includes('.'))){return`<a href="https://instagram.com/${h}" target="_blank">@${h}</a>`;}
+  return raw;
+}
+
+function buildCard(t){
+  const wrap=document.createElement('div');
+  wrap.className=`cat-${t.category}`;
+  const flags=[];
+  if(t.isNew)flags.push(`<span class="flag flag-new">✦ New</span>`);
+  if(t.paid==='Yes')flags.push(`<span class="flag flag-paid">✓ Paid</span>`);
+  else if(t.paid==='No')flags.push(`<span class="flag flag-unpaid">✗ Unpaid</span>`);
+  else flags.push(`<span class="flag flag-unpaid">⚠ Unconfirmed</span>`);
+  if(t.elec==='Yes')flags.push(`<span class="flag flag-electric">⚡ Electric</span>`);
+  if(t.isDup)flags.push(`<span class="flag flag-dup">⟳ Duplicate</span>`);
+  if(t.needsReview)flags.push(`<span class="flag flag-rev">⚑ Review</span>`);
+  const hasReqs=t.reqs&&!/^(n\/a|na|none|no|null)$/i.test(t.reqs.trim());
+  if(hasReqs)flags.push(`<span class="flag flag-req">📋 Requests</span>`);
+  const reqHtml=hasReqs?`<div class="note-section"><div class="note-label">Trader Requests</div><div class="note-val">${t.reqs}</div></div>`:'';
+  const notesHtml=t.adminNotes?`<div class="note-section"><div class="note-label">Admin Notes</div><div class="note-val">${t.adminNotes}</div></div>`:'';
+  wrap.innerHTML=`<div class="trader-card${t.isNew?' is-new':''}">
+    <div class="card-header">
+      <div style="flex:1">
+        <div class="biz-name">${t.name}</div>
+        <div class="cat-pill">${CATS[t.category]}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div class="pos-badge">#${t.pos}</div>
+        ${t.isNew?'<span class="new-tag">NEW</span>':''}
+        <button class="edit-btn" onclick="openEdit(${t.id})">✎ Edit</button>
+      </div>
+    </div>
+    <div class="products-text">${t.products}</div>
+    <div class="card-details">
+      <div class="detail-row"><span class="d-icon">📞</span><span class="d-val">${t.phone}</span></div>
+      ${t.email?`<div class="detail-row"><span class="d-icon">✉</span><span class="d-val"><a href="mailto:${t.email}">${t.email}</a></span></div>`:''}
+      ${t.social&&t.social.length>2?`<div class="detail-row"><span class="d-icon">🔗</span><span class="d-val">${socialHtml(t.social)}</span></div>`:''}
+    </div>
+    <div class="card-footer">
+      <div class="flags">${flags.join('')}</div>
+      <span class="ts">${fmtDate(t.ts)}</span>
+    </div>
+    ${reqHtml}${notesHtml}
+  </div>`;
+  return wrap;
+}
+
+function render(){
+  const list=getFiltered();
+  const grid=document.getElementById('grid');
+  grid.innerHTML='';
+  document.getElementById('resultsCount').textContent=`${list.length} trader${list.length!==1?'s':''} shown`;
+  if(!list.length){grid.innerHTML=`<div class="empty-state"><h3>No traders match</h3></div>`;renderStats();return;}
+  if(sort==='category'){
+    const groups={};
+    list.forEach(t=>{if(!groups[t.category])groups[t.category]=[];groups[t.category].push(t);});
+    Object.keys(groups).sort().forEach(cat=>{
+      const h=document.createElement('div');h.className='section-header';
+      h.innerHTML=`<h2>${CATS[cat]}</h2><span class="section-count">${groups[cat].length} stall${groups[cat].length>1?'s':''}</span>`;
+      grid.appendChild(h);
+      groups[cat].forEach((t,i)=>{const c=buildCard(t);c.querySelector('.trader-card').style.animationDelay=(i*.04)+'s';grid.appendChild(c);});
+    });
+  }else{
+    list.forEach((t,i)=>{const c=buildCard(t);c.querySelector('.trader-card').style.animationDelay=(i*.04)+'s';grid.appendChild(c);});
+  }
+  renderStats();
+}
+
+function renderStats(){
+  const total=traders.length;
+  const paid=traders.filter(t=>t.paid==='Yes').length;
+  const elec=traders.filter(t=>t.elec==='Yes').length;
+  const dups=traders.filter(t=>t.isDup).length;
+  const rev=traders.filter(t=>t.needsReview).length;
+  const newCount=traders.filter(t=>t.isNew).length;
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat-item"><span class="stat-num">${total}</span><span class="stat-label">Total<br>Traders</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><span class="stat-num" style="color:#4caf82">${paid}</span><span class="stat-label">Paid<br>Confirmed</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><span class="stat-num" style="color:#e88080">${total-paid}</span><span class="stat-label">Payment<br>Pending</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><span class="stat-num" style="color:#ffc107">${elec}</span><span class="stat-label">Need<br>Electricity</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><span class="stat-num" style="color:#4caf82">${newCount}</span><span class="stat-label">New Since<br>Last Update</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><span class="stat-num" style="color:#ffaa44">${dups}</span><span class="stat-label">Duplicate<br>Entries</span></div>`;
+  document.getElementById('dataStamp').textContent=`📊 ${total} traders · 4 May 2026`;
+}
+
+function setFilter(f,btn){filter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
+function setSort(s,btn){sort=s;document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
+document.getElementById('searchInput').addEventListener('input',e=>{search=e.target.value;render();});
+
+function openEdit(id){
+  editId=id;
+  const t=traders.find(x=>x.id===id);
+  document.getElementById('eName').value=t.name;
+  document.getElementById('eCat').value=t.category;
+  document.getElementById('ePaid').value=t.paid;
+  document.getElementById('eNotes').value=t.adminNotes;
+  document.getElementById('dupWarn').style.display=t.isDup?'block':'none';
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');editId=null;}
+function saveEdit(){
+  if(editId===null)return;
+  const t=traders.find(x=>x.id===editId);
+  const ov={name:document.getElementById('eName').value,category:document.getElementById('eCat').value,paid:document.getElementById('ePaid').value,adminNotes:document.getElementById('eNotes').value};
+  overrides[editId]=ov;saveOv(overrides);Object.assign(t,ov);
+  if(t.category!=='review')t.needsReview=false;
+  closeModal();render();
+}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal();});
+
+render();
+</script>
+</body>
+</html>
